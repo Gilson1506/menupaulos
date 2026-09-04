@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detalhes do Prato — Paulo's</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#060a1c;
+    --navy-900:#0d1530;
+    --navy-800:#141d40;
+    --navy-700:#1c274f;
+    --navy-600:#283260;
+    --gold-500:#c9a34e;
+    --gold-400:#d9b869;
+    --gold-300:#e7cd8b;
+    --cream:#f4efe2;
+    --slate:#8a92b8;
+    --slate-dim:#5d6690;
+    --divider:rgba(201,163,78,0.16);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:#02040c;
+    font-family:'Manrope',sans-serif;
+    color:var(--cream);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  .app{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+    width:100%;
+    max-width:600px;
+    margin:0 auto;
+    background:var(--navy-900);
+    position:relative;
+  }
+  .topbar{
+    padding:16px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-shrink:0;
+    border-bottom:1px solid var(--divider);
+  }
+  .back-btn{
+    background:transparent;
+    border:none;
+    color:var(--gold-300);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    padding:0;
+  }
+  .back-btn svg { width: 18px; height: 18px; }
+  .content{
+    flex:1;
+    overflow-y:auto;
+    padding:24px 22px;
+  }
+  .item-image{
+    width:100%;
+    height:250px;
+    background:var(--navy-800);
+    border-radius:16px;
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--slate-dim);
+    font-size:14px;
+    border:1px solid var(--navy-700);
+    background-size: cover;
+    background-position: center;
+  }
+  .item-cat{
+    font-size:12px;
+    color:var(--gold-400);
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    font-weight:700;
+    margin-bottom:8px;
+  }
+  .item-name{
+    font-family:'Playfair Display',serif;
+    font-size:28px;
+    font-weight:700;
+    color:var(--cream);
+    line-height:1.2;
+    margin-bottom:12px;
+  }
+  .item-price{
+    font-size:22px;
+    font-weight:700;
+    color:var(--gold-300);
+    margin-bottom:24px;
+  }
+  .item-desc{
+    font-size:15px;
+    color:var(--slate);
+    line-height:1.6;
+    margin-bottom:32px;
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="topbar">
+    <button class="back-btn" onclick="window.history.back()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Voltar
+    </button>
+    <img src="logo.png" alt="Paulo's Logo" style="height: 30px; border-radius: 4px;">
+  </div>
+  
+  <div class="content">
+    <div class="item-image" id="itemImage">
+      <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.3;"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+    </div>
+    <div class="item-cat" id="itemCat">Categoria</div>
+    <div class="item-name" id="itemName">Nome do Prato</div>
+    <div class="item-price" id="itemPrice">0 Kz</div>
+    <div class="item-desc" id="itemDesc">Descrição não disponível.</div>
+  </div>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const name = params.get('n');
+  const price = params.get('p');
+  const desc = params.get('d');
+  const cat = params.get('cat');
+  
+  if(name) document.getElementById('itemName').textContent = name;
+  if(price) document.getElementById('itemPrice').textContent = price !== 'null' ? Number(price).toLocaleString('de-DE') + ' Kz' : 'Sob consulta';
+  if(desc) document.getElementById('itemDesc').textContent = desc;
+  if(cat) document.getElementById('itemCat').textContent = cat;
+  
+</script>
+</body>
+</html>

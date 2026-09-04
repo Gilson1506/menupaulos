@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paulo's — Menu Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#060a1c;
+    --navy-900:#0d1530;
+    --navy-800:#141d40;
+    --navy-700:#1c274f;
+    --navy-600:#283260;
+    --gold-500:#c9a34e;
+    --gold-400:#d9b869;
+    --gold-300:#e7cd8b;
+    --cream:#f4efe2;
+    --slate:#8a92b8;
+    --slate-dim:#5d6690;
+    --divider:rgba(201,163,78,0.16);
+    --radius-lg:20px;
+    --radius-md:14px;
+    --radius-sm:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:#02040c;
+    font-family:'Manrope',sans-serif;
+    color:var(--cream);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  .app{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+    width:100%;
+    max-width:600px;
+    margin:0 auto;
+    background:var(--navy-900);
+    position:relative;
+  }
+
+  .topbar{
+    padding:6px 22px 14px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-shrink:0;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .crest{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    background:linear-gradient(160deg,var(--gold-300),var(--gold-500) 60%,#8a6a26);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Playfair Display',serif;
+    font-weight:700;
+    font-size:17px;
+    color:var(--navy-950);
+    flex-shrink:0;
+  }
+  .brand-name{
+    font-family:'Playfair Display',serif;
+    font-weight:700;
+    font-size:17px;
+    letter-spacing:.02em;
+    line-height:1.1;
+  }
+  .brand-sub{
+    font-size:10.5px;
+    color:var(--slate);
+    margin-top:1px;
+  }
+  .table-chip{
+    font-size:11px;
+    color:var(--gold-300);
+    background:rgba(201,163,78,0.12);
+    border:1px solid var(--divider);
+    padding:5px 10px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+
+  .switcher{
+    margin:2px 22px 14px;
+    background:var(--navy-800);
+    border-radius:16px;
+    padding:5px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:5px;
+    flex-shrink:0;
+  }
+  .switch-btn{
+    border:none;
+    background:transparent;
+    color:var(--slate);
+    font-family:'Manrope',sans-serif;
+    font-weight:700;
+    font-size:14px;
+    padding:11px 0;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    cursor:pointer;
+    transition:background .18s ease, color .18s ease;
+  }
+  .switch-btn svg{width:17px;height:17px;flex-shrink:0;}
+  .switch-btn.active{
+    background:linear-gradient(160deg,var(--gold-400),var(--gold-500));
+    color:var(--navy-950);
+  }
+  .switch-btn:not(.active):hover{color:var(--cream);}
+
+  .searchwrap{
+    margin:0 22px 12px;
+    position:relative;
+    flex-shrink:0;
+  }
+  .searchwrap input{
+    width:100%;
+    background:var(--navy-800);
+    border:1px solid var(--navy-700);
+    border-radius:12px;
+    padding:11px 14px 11px 38px;
+    color:var(--cream);
+    font-family:'Manrope',sans-serif;
+    font-size:13.5px;
+  }
+  .searchwrap input::placeholder{color:var(--slate-dim);}
+  .searchwrap input:focus{outline:none;border-color:var(--gold-500);}
+  .searchwrap svg{
+    position:absolute;left:13px;top:50%;transform:translateY(-50%);
+    width:15px;height:15px;color:var(--slate);
+  }
+  .search-clear{
+    position:absolute;right:10px;top:50%;transform:translateY(-50%);
+    width:20px;height:20px;border-radius:50%;background:var(--navy-700);
+    color:var(--slate);border:none;font-size:12px;cursor:pointer;
+    display:none;align-items:center;justify-content:center;
+  }
+
+  .chiprow{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding:0 22px 14px;
+    flex-shrink:0;
+    scrollbar-width:none;
+  }
+  .chiprow::-webkit-scrollbar{display:none;}
+  .chip{
+    flex-shrink:0;
+    padding:8px 15px;
+    border-radius:999px;
+    background:var(--navy-800);
+    border:1px solid var(--navy-700);
+    color:var(--slate);
+    font-size:12.5px;
+    font-weight:600;
+    white-space:nowrap;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .chip.active{
+    background:rgba(201,163,78,0.14);
+    border-color:var(--gold-500);
+    color:var(--gold-300);
+  }
+
+  .content{
+    flex:1;
+    overflow-y:auto;
+    padding:2px 22px 26px;
+  }
+  .content::-webkit-scrollbar{width:4px;}
+  .content::-webkit-scrollbar-thumb{background:var(--navy-700);border-radius:4px;}
+
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:9px;
+    margin:22px 0 10px;
+  }
+  .section-head:first-child{margin-top:6px;}
+  .section-bar{width:3px;height:15px;background:var(--gold-500);border-radius:2px;flex-shrink:0;}
+  .section-title{
+    font-family:'Playfair Display',serif;
+    font-weight:600;
+    font-size:16.5px;
+    color:var(--cream);
+  }
+  .section-note{
+    font-size:10.5px;
+    color:var(--slate-dim);
+    margin:-4px 0 10px 12px;
+  }
+
+  .card{
+    background:var(--navy-800);
+    border:1px solid var(--navy-700);
+    border-radius:var(--radius-md);
+    padding:13px 15px;
+    margin-bottom:9px;
+  }
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:flex-start;
+  }
+  .item-name{
+    font-size:14px;
+    font-weight:700;
+    color:var(--cream);
+    line-height:1.35;
+  }
+  .item-price{
+    font-size:14px;
+    font-weight:700;
+    color:var(--gold-300);
+    white-space:nowrap;
+    font-variant-numeric:tabular-nums;
+    flex-shrink:0;
+  }
+  .item-desc{
+    font-size:12px;
+    color:var(--slate);
+    line-height:1.5;
+    margin-top:4px;
+  }
+  .item-tag{
+    display:inline-block;
+    margin-top:7px;
+    font-size:10px;
+    font-weight:700;
+    color:var(--gold-400);
+    background:rgba(201,163,78,0.1);
+    padding:3px 8px;
+    border-radius:6px;
+  }
+
+  .empty{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--slate-dim);
+    font-size:13px;
+  }
+
+  .quickbar{
+    flex-shrink:0;
+    padding:10px 22px calc(14px + env(safe-area-inset-bottom));
+    display:flex;
+    gap:8px;
+    background:linear-gradient(180deg,transparent,var(--navy-950) 40%);
+    border-top:1px solid var(--divider);
+  }
+  .quickbar button{
+    flex:1;
+    background:var(--navy-800);
+    border:1px solid var(--navy-700);
+    color:var(--cream);
+    font-family:'Manrope',sans-serif;
+    font-size:12px;
+    font-weight:700;
+    padding:11px 0;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    cursor:pointer;
+  }
+  .quickbar svg{width:15px;height:15px;}
+  .quickbar .primary{
+    background:linear-gradient(160deg,var(--gold-400),var(--gold-500));
+    color:var(--navy-950);
+    border:none;
+  }
+
+</style>
+</head>
+<body>
+
+    <div class="app">
+
+      <div class="topbar">
+        <div class="brand">
+          <img src="logo.png" alt="Paulo's Logo" style="height: 40px; border-radius: 5px;">
+          <div>
+            <div class="brand-name">Paulo's</div>
+            <div class="brand-sub">Restaurante &amp; Grill</div>
+          </div>
+        </div>
+        <div class="table-chip" id="tableChip">Mesa 07</div>
+      </div>
+
+      <div class="switcher">
+        <button class="switch-btn active" data-menu="comida">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 2v8M10 2v8M6 6h4M8 10v12"/><path d="M17 2c-2 2-2 5-2 7 0 2 1 3 2 3s2-1 2-3c0-2 0-5-2-7zM17 12v10"/></svg>
+          Comida
+        </button>
+        <button class="switch-btn" data-menu="bebida">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14l-1.5 9a5 5 0 0 1-5 4h-1a5 5 0 0 1-5-4L5 3z"/><path d="M12 16v5M9 21h6"/></svg>
+          Bebida
+        </button>
+      </div>
+
+      <div class="searchwrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="searchInput" placeholder="Buscar prato ou bebida...">
+        <button class="search-clear" id="searchClear">✕</button>
+      </div>
+
+      <div class="chiprow" id="chipRow"></div>
+
+      <div class="content" id="content"></div>
+
+      <div class="quickbar">
+        <button id="topBtn" style="width: 100%;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+          Topo
+        </button>
+      </div>
+
+    </div>
+
+<script>
+const DATA = {
+  comida: [
+    { cat:"Entradas & Petiscos", items:[
+      {n:"Ginguba torrada", d:"Com sal ou sem", p:2000},
+      {n:"Azeitonas temperadas", p:2000},
+      {n:"Pão ao alho", p:5000},
+      {n:"Pão ao alho c/ queijo", p:7000},
+      {n:"Paté de atum c/ broa de milho", p:3000},
+      {n:"Choco frito", d:"Servido com molho tártaro", p:8500},
+      {n:"Polvo panado", d:"Servido com molho tártaro", p:8900},
+      {n:"Chouriço caseiro", d:"Broa de milho e molho de manteiga", p:6900},
+      {n:"Chouriço corrente", d:"Broa de milho e molho de manteiga", p:5000},
+      {n:"Frango à passarinho", p:5500},
+      {n:"Gambas ao alho", p:13500},
+      {n:"Franguite", d:"Com batata frita", p:6000},
+      {n:"Cabrite", d:"Com batata frita", p:7000},
+      {n:"Cabrite completo", p:10000},
+      {n:"Pica pau", p:8500},
+      {n:"Sopa de feijão", p:3000},
+      {n:"Sopa de legumes", p:4000},
+      {n:"Caldo de corvina", p:5000},
+      {n:"Creme de abóbora", p:6000},
+    ]},
+    { cat:"Snacks", items:[
+      {n:"Sandes de atum", p:2450},
+      {n:"Sandes mista", p:2500},
+      {n:"Ovos mexidos com torradas", d:"Ovos cremosos com torradas douradas", p:2500},
+      {n:"Tosta mista", p:1900},
+      {n:"Omelete misto", p:2499},
+      {n:"Omelete de cogumelos", p:3499},
+    ]},
+    { cat:"Saladas", items:[
+      {n:"Salada Caesar", d:"Peito de frango, torradas, alface e molho", p:4800},
+      {n:"Salada atum", p:3900},
+    ]},
+    { cat:"Hambúrgueres, pizzas & fajitas", items:[
+      {n:"Hambúrguer barbecue BBQ", d:"Pão, carne de vaca 130g, manjericão, tomate, queijo cheddar, cebola caramelizada", p:6000},
+      {n:"Hambúrguer delux", d:"Pão de caco, carne de vaca 130g, rúcula, alface, tomate, queijo, cebola roxa, molho tártaro", p:5000},
+      {n:"Hambúrguer tradicional", d:"Recheio cremoso, batata frita", p:3500},
+      {n:"Fajita de carne", p:7400},
+      {n:"Fajita de frango", p:5999},
+      {n:"Fajita de legumes", p:6000},
+      {n:"Pizza à portuguesa", d:"Molho de tomate, ovo, chouriço, tomate, pimentos, cebola caramelizada, azeitonas, orégão, mozarela", p:12000},
+      {n:"Pizza média 4 estações", p:9000},
+      {n:"Pizza big 4 estações", p:13000},
+    ]},
+    { cat:"Iguarias da terra", items:[
+      {n:"Caluluú de carne seca", p:8499},
+      {n:"Peito alto", p:8499},
+      {n:"Carne grelhada", d:"Com funge, súmate e kizaca", p:8499},
+      {n:"Galinha de moamba", d:"Com funge, súmate e kizaca", p:7590},
+    ]},
+    { cat:"Beef premium & carnes na brasa", items:[
+      {n:"Bife à Paulo's", d:"Arroz branco, batata em rodela, queijo e fiambre", p:17950},
+      {n:"Prego no prato", p:13500},
+      {n:"Picanha brasileira", d:"C/ feijão preto, arroz branco, couve mineira e banana pão", p:21999},
+      {n:"Medalhão de novilho", d:"Puré de batata, legumes salteados", p:16900},
+    ]},
+    { cat:"Chicken grill", items:[
+      {n:"Peito de frango na chapa", d:"Puré de batata doce e legumes", p:11300},
+      {n:"Churrasco inteiro", d:"Arroz de cenoura, batata frita, salada", p:15800},
+      {n:"Meio churrasco", d:"Arroz de cenoura, batata frita, salada", p:10500},
+    ]},
+    { cat:"Especial & grelhados grandes", items:[
+      {n:"Grelhada terra e mar", d:"Coxa, febra, entremeada, entrecosto, vazia, linguiça, chouriço, choco, camarão, lagosta, polvo, lula, arroz, feijão, salada", p:72990},
+      {n:"Grelhada suprema (4 pax)", d:"Coxa, febra, entremeada, entrecosto, vazia, linguiça, chouriço, arroz, feijão, salada", p:62000},
+      {n:"Mini grelhada (2 pax)", p:32000},
+      {n:"Espetada de entrecosto", d:"Legumes, batata frita e molho da casa", p:20500},
+    ]},
+    { cat:"Peixe & marisco", items:[
+      {n:"Posta de peixe", d:"Garoupa, corvina, cherne ou choupa — banana pão caramelizado, batata doce e legumes salteados", p:15000},
+      {n:"Lagosta grelhada à Paulo's", d:"Batatas crocantes e molho exclusivo do chef", p:22000},
+      {n:"Polvo à lagareiro", p:17499},
+      {n:"Choco na brasa", d:"Legumes salteados e batatas douradas", p:16899},
+      {n:"Camarão panado", d:"Batata frita e molho", p:15999},
+    ]},
+    { cat:"Massas", items:[
+      {n:"Massa carbonara", p:13000},
+      {n:"Massada de frutos do mar", p:23000},
+      {n:"Massa bolonhesa", p:17000},
+    ]},
+    { cat:"Guarnições", items:[
+      {n:"Dose de arroz branco", p:1000},
+      {n:"Dose de feijão preto", p:1500},
+      {n:"Dose de feijão de óleo de palma", p:1500},
+      {n:"Dose de batata frita rena", p:1300},
+      {n:"Dose de kizaca", p:1200},
+      {n:"Dose de fumbua", p:1500},
+      {n:"Dose de funge", p:1000},
+    ]},
+    { cat:"Sobremesa", items:[
+      {n:"Bolo de chocolate", p:3500},
+      {n:"Torta de laranja", p:4000},
+      {n:"Cheesecake da época", p:5000},
+    ]},
+    { cat:"Grupos & buffet", note:"Acima de 20 pax — sob consulta", items:[
+      {n:"Bacalhau com natas", p:null},
+      {n:"Bacalhau Gomes de Sá", p:null},
+      {n:"Arroz de marisco", p:null},
+      {n:"Arroz de pato", p:null},
+      {n:"Grelhada mista", d:"Picanha, frango, entrecosto, linguiça, arroz de feijão e batata doce frita", p:null},
+      {n:"Tábua de grelhados terra e mar", d:"Mix de grelhados terra e mar com arroz marinho e batata frita", p:null},
+    ]},
+  ],
+  bebida: [
+    { cat:"Águas & refrigerantes", items:[
+      {n:"Água pequena", p:500},
+      {n:"Água tónica", p:1499},
+      {n:"Água com gás", p:1999},
+      {n:"Pepsi Cola", p:1500},
+      {n:"7Up", p:1500},
+      {n:"Mirinda", p:1500},
+      {n:"Coca-Cola", p:1600},
+      {n:"Sprite", p:1600},
+      {n:"Fanta", p:1600},
+      {n:"Compal lata", p:1999},
+    ]},
+    { cat:"Cafetaria", items:[
+      {n:"Café", p:1000},
+      {n:"Galão", p:1499},
+      {n:"Leite simples", p:1000},
+      {n:"Chá", p:1000},
+      {n:"Amaruscofé", p:1499},
+    ]},
+    { cat:"Cervejas", items:[
+      {n:"Fino long drink", p:1150},
+      {n:"Fino lambreta", p:750},
+      {n:"Fino caneca", p:2500},
+      {n:"Fino panaché", p:1750},
+      {n:"Fino tango", p:1200},
+      {n:"Cuca lata", p:1500},
+      {n:"Eka lata", p:1500},
+      {n:"Nocal", p:1500},
+      {n:"Doppel", p:1500},
+      {n:"Heineken", p:1700},
+      {n:"Booster lata", p:1500},
+      {n:"Sminorfe", p:2000},
+    ]},
+    { cat:"Cocktails & sangrias", items:[
+      {n:"Sangria tinta", p:25000},
+      {n:"Sangria branca", p:25000},
+      {n:"Sangria espumante", p:35000},
+      {n:"Sangria frutos vermelhos", p:35000},
+      {n:"Caipirinha", p:5000},
+      {n:"Caipiroska", p:5000},
+      {n:"Caip black", p:5000},
+      {n:"Gin tónico", p:5000},
+      {n:"Gin frutos vermelhos", p:6700},
+      {n:"Gin tónico rosé", p:5700},
+      {n:"Gin bull", p:8000},
+      {n:"Daiquiri", p:5000},
+      {n:"Morrito", p:6500},
+      {n:"Piña colada", p:7000},
+      {n:"Margarita", p:6000},
+      {n:"Mar vermelho", p:5000},
+      {n:"Mar azul", p:6000},
+      {n:"Welcome", p:6500},
+      {n:"Wakanda", p:8000},
+      {n:"Long drink à Paulo's", p:8000},
+      {n:"Beach full", p:8000},
+      {n:"Boosterista", p:8000},
+      {n:"Flavour Paulo's", p:8000},
+    ]},
+    { cat:"Vinhos", items:[
+      {n:"Asal Garcia", d:"Verde", p:18800},
+      {n:"Gazela", d:"Verde", p:18000},
+      {n:"Mateus Rosé Grand", d:"Verde", p:25000},
+      {n:"Marques de Borba", d:"Branco", p:20000},
+      {n:"Mosarraz", d:"Branco", p:20000},
+      {n:"JP Azeitão", d:"Branco", p:20000},
+      {n:"Planalto", d:"Branco", p:10000},
+      {n:"Papa Figo", d:"Tinto", p:24000},
+      {n:"Estevão", d:"Tinto", p:18500},
+      {n:"Duas Quintas", d:"Tinto", p:30000},
+      {n:"Duas Quintas reserva", d:"Tinto", p:42000},
+      {n:"Chamine", d:"Tinto", p:24000},
+      {n:"EA Cartuxa", d:"Tinto", p:20000},
+      {n:"Marques de Borba", d:"Tinto", p:22500},
+      {n:"Pé Tinto", d:"Tinto", p:19000},
+    ]},
+    { cat:"Champanhe & espumante", note:"Sob consulta", items:[] },
+    { cat:"Whisky", items:[
+      {n:"Red Label", d:"Dose", p:4500},
+      {n:"Famous Grouse", d:"Dose", p:4500},
+      {n:"Jameson", d:"Dose", p:4500},
+      {n:"Black Label", d:"Garrafa", p:7500},
+      {n:"Jameson Black", d:"Garrafa", p:7500},
+      {n:"Chivas 12 anos", d:"Garrafa", p:7500},
+      {n:"Glenfiddich", d:"Garrafa", p:12700},
+    ]},
+    { cat:"Licores", items:[
+      {n:"Licor Beirão", p:4000},
+      {n:"Malibu coco", p:5000},
+      {n:"Licor de café", p:4999},
+      {n:"Amarula", p:4700},
+      {n:"Martini bianco", p:4700},
+      {n:"Martini rosso", p:4700},
+    ]},
+    { cat:"Cognac", items:[
+      {n:"Martell U.S", p:7700},
+      {n:"Courvoisier XO", p:8800},
+      {n:"Brandy Constantino", p:8800},
+      {n:"Rémy Martin", p:10500},
+      {n:"Antiquíssima", p:10500},
+      {n:"Offley", p:10500},
+    ]},
+    { cat:"Bebidas espirituosas", items:[
+      {n:"Beefeater pink", p:5700},
+      {n:"Bold dog", p:5700},
+      {n:"Vodka Absolut", p:3000},
+      {n:"Gin Gordon's", p:3000},
+      {n:"Gin pink", p:3500},
+      {n:"Havana Club", p:3500},
+    ]},
+  ]
+};
+
+let activeMenu = "comida";
+let activeCat = null;
+
+const contentEl = document.getElementById('content');
+const chipRow = document.getElementById('chipRow');
+const searchInput = document.getElementById('searchInput');
+const searchClear = document.getElementById('searchClear');
+
+function fmt(p){
+  if(p === null || p === undefined) return "consulte";
+  return p.toLocaleString('de-DE') + ' Kz';
+}
+function slug(s){ return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-'); }
+
+function renderChips(){
+  const cats = DATA[activeMenu];
+  chipRow.innerHTML = cats.map(c => {
+    const id = slug(c.cat);
+    const isActive = activeCat === id;
+    return '<div class="chip'+(isActive?' active':'')+'" data-target="'+id+'">'+c.cat+'</div>';
+  }).join('');
+  chipRow.querySelectorAll('.chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      const target = document.getElementById('sec-'+chip.dataset.target);
+      if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+}
+
+function renderList(){
+  const cats = DATA[activeMenu];
+  contentEl.innerHTML = cats.map(c => {
+    const id = slug(c.cat);
+    const note = c.note ? '<div class="section-note">'+c.note+'</div>' : '';
+    const items = c.items.length ? c.items.map(it => {
+      const qs = `?n=${encodeURIComponent(it.n)}&p=${encodeURIComponent(it.p)}&d=${encodeURIComponent(it.d||'')}&cat=${encodeURIComponent(c.cat)}`;
+      return '<div class="card" style="cursor:pointer" onclick="window.location.href=\'detalhes.html'+qs+'\'"><div class="card-top"><div class="item-name">'+it.n+'</div><div class="item-price">'+fmt(it.p)+'</div></div>'
+      + (it.d ? '<div class="item-desc">'+it.d+'</div>' : '')
+      + '</div>';
+    }).join('') : '';
+    return '<div class="section" id="sec-'+id+'"><div class="section-head"><div class="section-bar"></div><div class="section-title">'+c.cat+'</div></div>'+note+items+'</div>';
+  }).join('');
+  setupScrollSpy();
+}
+
+function renderSearch(term){
+  const cats = DATA[activeMenu];
+  const t = term.trim().toLowerCase();
+  let matches = [];
+  cats.forEach(c=>{
+    c.items.forEach(it=>{
+      const hay = (it.n+' '+(it.d||'')).toLowerCase();
+      if(hay.includes(t)) matches.push({cat:c.cat, it});
+    });
+  });
+  if(matches.length === 0){
+    contentEl.innerHTML = '<div class="empty">Sem resultados para "'+term+'"<br>tente outra palavra</div>';
+    return;
+  }
+  contentEl.innerHTML = matches.map(m => {
+    const qs = `?n=${encodeURIComponent(m.it.n)}&p=${encodeURIComponent(m.it.p)}&d=${encodeURIComponent(m.it.d||'')}&cat=${encodeURIComponent(m.cat)}`;
+    return '<div class="card" style="cursor:pointer" onclick="window.location.href=\'detalhes.html'+qs+'\'"><div class="card-top"><div class="item-name">'+m.it.n+'</div><div class="item-price">'+fmt(m.it.p)+'</div></div>'
+    + (m.it.d ? '<div class="item-desc">'+m.it.d+'</div>' : '')
+    + '<div class="item-tag">'+m.cat+'</div></div>';
+  }).join('');
+}
+
+let observer = null;
+function setupScrollSpy(){
+  if(observer) observer.disconnect();
+  const sections = document.querySelectorAll('.section');
+  observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const id = entry.target.id.replace('sec-','');
+        activeCat = id;
+        chipRow.querySelectorAll('.chip').forEach(chip=>{
+          chip.classList.toggle('active', chip.dataset.target === id);
+        });
+        const activeChip = chipRow.querySelector('.chip.active');
+        if(activeChip) activeChip.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+      }
+    });
+  }, { root: contentEl, threshold: 0, rootMargin: '-10% 0px -75% 0px' });
+  sections.forEach(s => observer.observe(s));
+}
+
+function switchMenu(menu){
+  activeMenu = menu;
+  activeCat = null;
+  searchInput.value = '';
+  searchClear.style.display = 'none';
+  document.querySelectorAll('.switch-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.menu === menu);
+  });
+  renderChips();
+  renderList();
+  contentEl.scrollTop = 0;
+}
+
+document.querySelectorAll('.switch-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=> switchMenu(btn.dataset.menu));
+});
+
+searchInput.addEventListener('input', (e)=>{
+  const val = e.target.value;
+  searchClear.style.display = val ? 'flex' : 'none';
+  if(val.trim()){
+    chipRow.style.visibility = 'hidden';
+    renderSearch(val);
+  } else {
+    chipRow.style.visibility = 'visible';
+    renderList();
+  }
+});
+searchClear.addEventListener('click', ()=>{
+  searchInput.value = '';
+  searchClear.style.display = 'none';
+  chipRow.style.visibility = 'visible';
+  renderList();
+  searchInput.focus();
+});
+
+document.getElementById('topBtn').addEventListener('click', ()=>{
+  contentEl.scrollTo({top:0, behavior:'smooth'});
+});
+
+const params = new URLSearchParams(window.location.search);
+const mesa = params.get('mesa');
+if(mesa) document.getElementById('tableChip').textContent = 'Mesa ' + mesa;
+
+renderChips();
+renderList();
+</script>
+</body>
+</html>
