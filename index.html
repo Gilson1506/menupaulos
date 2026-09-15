@@ -26,12 +26,19 @@
     --radius-sm:10px;
   }
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
+  html,body{
+    margin:0;
+    padding:0;
+    height:100%;
+    overscroll-behavior:none;
+  }
   body{
     background:#02040c;
     font-family:'Manrope',sans-serif;
     color:var(--cream);
-    min-height:100vh;
+    height:100vh;
+    height:100dvh;
+    overflow:hidden;
     display:flex;
     flex-direction:column;
   }
@@ -40,11 +47,13 @@
     display:flex;
     flex-direction:column;
     min-height:0;
+    height:100%;
     width:100%;
     max-width:600px;
     margin:0 auto;
     background:var(--navy-900);
     position:relative;
+    box-shadow:0 0 40px rgba(0,0,0,0.35);
   }
 
   .topbar{
@@ -53,6 +62,9 @@
     align-items:center;
     justify-content:space-between;
     flex-shrink:0;
+    position:relative;
+    z-index:5;
+    background:var(--navy-900);
   }
   .brand{
     display:flex;
@@ -163,6 +175,9 @@
     padding:0 22px 14px;
     flex-shrink:0;
     scrollbar-width:none;
+    position:relative;
+    z-index:5;
+    box-shadow:0 12px 16px -12px rgba(0,0,0,0.45);
   }
   .chiprow::-webkit-scrollbar{display:none;}
   .chip{
@@ -187,6 +202,8 @@
   .content{
     flex:1;
     overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-y:contain;
     padding:2px 22px 26px;
   }
   .content::-webkit-scrollbar{width:4px;}
@@ -368,9 +385,14 @@ const DATA = {
       {n:"Creme de Aboborá", p:5000},
     
     ]},
-    { cat:"SNACK", items:[
+    { cat:"Pequeno Almoço", items:[
       {n:"Sandes de atum", p:2450},
-      {n:"Sandes Frango", p:2500},
+      {n:"Sandes mista", p:2500},
+      {n:"Ovos mexidos com torradas", d:"Ovos cremosos com torradas douradas", p:2500},
+      {n:"Tosta mista", p:2500},
+      {n:"Broa de milho", p:3500},
+      {n:"Omelete misto", p:2499},
+      {n:"Omelete de cogumelos", p:3499},
     ]},
     { cat:"Saladas", items:[
       {n:"Salada Caesar", d:"Peito de frango, torradas, alface e molho", p:4800},
@@ -378,7 +400,7 @@ const DATA = {
     ]},
     { cat:"Hambúrgueres", items:[
       {n:"Hambúrguer delux", d:"Pão de caco, carne de vaca 130g, rúcula, alface, tomate, queijo, cebola roxa, molho tártaro", p:7500},
-      {n:"Hambúrguer Tradicional", d:"Recheio cremoso, batata frita", p:5900},
+      {n:"Hambúrguer Tradicional", d:"Recheio cremoso, batata frita", p:3500},
     ]},
     { cat:"Fajitas", items:[
       {n:"Fajita de carne", p:6500},
@@ -389,7 +411,9 @@ const DATA = {
       {n:"Pizza à Portuguesa (Média)", d:"Molho de tomate, ovo, chouriço, tomate, pimentos, cebola caramelizada, azeitonas, orégão, mozarela", p:11000},
       {n:"Pizza de Frango (Média)", p:11900},
       {n:"Pizza de Carne (Média)", p:13000},
+      {n:"Pizza 4 Estações (Média)", p:14000},
       {n:"Pizza à Portuguesa (Grande)", d:"Molho de tomate, ovo, chouriço, tomate, pimentos, cebola caramelizada, azeitonas, orégão, mozarela", p:13000},
+      {n:"Pizza de Frango (Grande)", p:14000},
       {n:"Pizza de Carne (Grande)", p:15000},
       {n:"Pizza 4 Estações (Grande)", p:16000},
     ]},
@@ -417,7 +441,7 @@ const DATA = {
     ]},
     { cat:"Peixe & marisco", items:[
       {n:"Posta de peixe", d:"Garoupa, corvina, cherne ou choupa — banana pão caramelizado, batata doce e legumes salteados", p:15000},
-      {n:"Lagosta gratinada à Paulo's", d:"Batatas crocantes e molho exclusivo do chef", p:25000},
+      {n:"Lagosta gratinada à Paulo's", d:"Batatas crocantes e molho exclusivo do chef", p:22000},
       {n:"Polvo à lagareiro", p:17499},
       {n:"Choco na brasa", d:"Legumes salteados e batatas douradas", p:16899},
       {n:"Tempura de Camarão", d:"Batata frita e molho", p:15999},
